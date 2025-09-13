@@ -37,7 +37,7 @@ Load< Scene > hexapod_scene(LoadTagDefault, []() -> Scene const * {
 });
 
 Load< Sound::Sample > dusty_floor_sample(LoadTagDefault, []() -> Sound::Sample const * {
-	return new Sound::Sample(data_path("dusty-floor.opus"));
+	return new Sound::Sample(data_path("abcdefg.wav"));
 });
 
 
@@ -113,25 +113,27 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
 			down.pressed = false;
 			return true;
 		}
-	} else if (evt.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
-		if (SDL_GetWindowRelativeMouseMode(Mode::window) == false) {
-			SDL_SetWindowRelativeMouseMode(Mode::window, true);
-			return true;
-		}
-	} else if (evt.type == SDL_EVENT_MOUSE_MOTION) {
-		if (SDL_GetWindowRelativeMouseMode(Mode::window) == true) {
-			glm::vec2 motion = glm::vec2(
-				evt.motion.xrel / float(window_size.y),
-				-evt.motion.yrel / float(window_size.y)
-			);
-			camera->transform->rotation = glm::normalize(
-				camera->transform->rotation
-				* glm::angleAxis(-motion.x * camera->fovy, glm::vec3(0.0f, 1.0f, 0.0f))
-				* glm::angleAxis(motion.y * camera->fovy, glm::vec3(1.0f, 0.0f, 0.0f))
-			);
-			return true;
-		}
-	}
+	} //else if (evt.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+	// 	if (SDL_GetWindowRelativeMouseMode(Mode::window) == false) {
+	// 		SDL_SetWindowRelativeMouseMode(Mode::window, true);
+	// 		return true;
+	// 	}
+	// } else if (evt.type == SDL_EVENT_MOUSE_MOTION) {
+	// 	if (SDL_GetWindowRelativeMouseMode(Mode::window) == true) {
+	// 		//@camera control referenced from Matteo
+	// 		glm::vec2 motion = glm::vec2(
+	// 			evt.motion.xrel / float(window_size.y),
+	// 			evt.motion.yrel / float(window_size.y));
+	// 		// Make sure the rotation does not roll the character by multiplying yaw on one side
+	// 		// and pitch on the other (source: https://stackoverflow.com/questions/46738139/prevent-rotation-around-certain-axis-with-quaternion)
+	// 		camera->transform->rotation = glm::normalize(
+	// 			glm::angleAxis(-motion.x * camera->fovy, glm::vec3(0.0f, 0.0f, 1.0f)) 
+	// 			* camera->transform->rotation 
+	// 			* glm::angleAxis(-motion.y * camera->fovy, glm::vec3(1.0f, 0.0f, 0.0f)));
+			
+	// 		return true;
+	// 	}
+	//}
 
 	return false;
 }
