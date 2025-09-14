@@ -37,6 +37,10 @@ Load< Scene > elements_scene(LoadTagDefault, []() -> Scene const * {
 });
 
 //Load Samples
+Load< Sound::Sample > sample_honk(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("honk.wav"));
+});
+
 Load< Sound::Sample > sample_1_2(LoadTagDefault, []() -> Sound::Sample const * {
 	return new Sound::Sample(data_path("1-2.wav"));
 });
@@ -83,9 +87,10 @@ void PlayMode::spawn(const std::string& mesh_name, const glm::vec3& pos) { //@GP
     dr.pipeline.count  = mesh.count;
 }
 
-void PlayMode::level_init(int current_level) {
+void PlayMode::level_init() {
+	level++;
 	scene.drawables.clear();
-	if(current_level == 1) {
+	if(level == 1) {
 		spawn("Unit1", glm::vec3(0,-5,7));
 		spawn("Unit2", glm::vec3(0,0,7));
 		spawn("Combo1", glm::vec3(0,5,7));
@@ -98,10 +103,6 @@ void PlayMode::level_init(int current_level) {
 }
 
 PlayMode::PlayMode() : scene(*elements_scene) {
-	//get pointers to leg for convenience:
-	//std::cout << "Units size = " << Units.size() << std::endl;
-	//std::cout << "Combos size = " << Combos.size() << std::endl;
-
 	//get pointer to camera for convenience:
 	if (scene.cameras.size() != 1) throw std::runtime_error("Expecting scene to have exactly one camera, but it has " + std::to_string(scene.cameras.size()));
 	camera = &scene.cameras.front();
@@ -109,7 +110,67 @@ PlayMode::PlayMode() : scene(*elements_scene) {
 	//start music loop playing:
 	// (note: position will be over-ridden in update())
 	//current_music = Sound::loop(*sample_1_2, 1.0f, 10.0f);
-	level_init(1);
+	level_init();
+}
+
+//@GPT referenced  & https://learnopengl.com/Getting-started/Coordinate-Systems?utm_source=chatgpt.com
+static bool world_to_screen_px (const Scene::Camera* cam, glm::uvec2 window_size, const glm::vec3& world, glm::vec2* out_px) {
+	glm::mat4x3 F = cam->transform->make_parent_from_local(); // [right, up, -fwd, eye]
+    glm::vec3 eye   = F[3];
+    glm::vec3 right = F[0];
+    glm::vec3 up    = F[1];
+    glm::vec3 fwd   = -F[2];
+
+    // rebase the transform to camera_centered
+    glm::vec3 p = world - eye;
+    float x_cam = glm::dot(p, right);
+    float y_cam = glm::dot(p, up);
+    float z_cam = glm::dot(p, fwd); // look at -Z
+
+    if (z_cam <= 0.0001f) return false; // begind camera. No projection
+
+    // camera view range
+    float tan_half_fovy = std::tan(0.5f * cam->fovy);
+    float tan_half_fovx = tan_half_fovy * cam->aspect;
+
+	//position in camera view
+    float ndc_x = (x_cam / z_cam) / tan_half_fovx;
+    float ndc_y = (y_cam / z_cam) / tan_half_fovy;
+
+    // out of camera viewport
+    if (ndc_x < -1.f || ndc_x > 1.f || ndc_y < -1.f || ndc_y > 1.f) return false;
+
+    //ndc transform to pixel transform
+    (*out_px).x = (ndc_x * 0.5f + 0.5f) * float(window_size.x);
+    (*out_px).y = (1.0f - (ndc_y * 0.5f + 0.5f)) * float(window_size.y);
+    return true;
+}
+
+Sound::Sample const& PlayMode::pick_sample_for_name(const std::string& name) const{
+	std::cout << "Trying to play sample for" << name << std::endl;
+	if (level == 1) {
+		if (name.find("Unit1")  != std::string::npos) return *sample_1_2;
+		if (name.find("Unit2")  != std::string::npos) return *sample_1_3;
+		if (name.find("Unit3")  != std::string::npos) return *sample_1_6;
+		if (name.find("Combo1") != std::string::npos) return *sample_1_5;
+    	if (name.find("Combo2") != std::string::npos) return *sample_1_8;
+
+	}
+    // if (name.find("Unit1")  != std::string::npos) return *sample_1_2;
+    // if (name.find("Unit2")  != std::string::npos) return *sample_1_3;
+    // if (name.find("Unit3")  != std::string::npos) return *sample_1_5;
+    // if (name.find("Unit4")  != std::string::npos) return *sample_1_6;
+    // if (name.find("Unit5")  != std::string::npos) return *sample_1_8;
+    // if (name.find("Unit6")  != std::string::npos) return *sample_1_11;
+
+    // if (name.find("Combo1") != std::string::npos) return *sample_1_2;
+    // if (name.find("Combo2") != std::string::npos) return *sample_1_3;
+    // if (name.find("Combo3") != std::string::npos) return *sample_1_5;
+    // if (name.find("Combo4") != std::string::npos) return *sample_1_6;
+    // if (name.find("Combo5") != std::string::npos) return *sample_1_8;
+
+    // 默认兜底
+    return *sample_honk;
 }
 
 PlayMode::~PlayMode() {
@@ -146,9 +207,7 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
 			down.pressed = true;
 			return true;
 		} else if (evt.key.key == SDLK_SPACE) {
-			//if (honk_oneshot) honk_oneshot->stop();
-			//std::cout<< "honk" << std::endl;
-			//honk_oneshot = Sound::play(*sample_1_3, 3.0f, 0.0f); //hardcoded position of front of car, from blender
+			
 		}
 	} else if (evt.type == SDL_EVENT_KEY_UP) {
 		if (evt.key.key == SDLK_A) {
@@ -164,53 +223,45 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
 			down.pressed = false;
 			return true;
 		}
-	} //else if (evt.type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
-	// 	if (SDL_GetWindowRelativeMouseMode(Mode::window) == false) {
-	// 		SDL_SetWindowRelativeMouseMode(Mode::window, true);
-	// 		return true;
-	// 	}
-	// } else if (evt.type == SDL_EVENT_MOUSE_MOTION) {
-	// 	if (SDL_GetWindowRelativeMouseMode(Mode::window) == true) {
-	// 		//@camera control referenced from Matteo
-	// 		glm::vec2 motion = glm::vec2(
-	// 			evt.motion.xrel / float(window_size.y),
-	// 			evt.motion.yrel / float(window_size.y));
-	// 		// Make sure the rotation does not roll the character by multiplying yaw on one side
-	// 		// and pitch on the other (source: https://stackoverflow.com/questions/46738139/prevent-rotation-around-certain-axis-with-quaternion)
-	// 		camera->transform->rotation = glm::normalize(
-	// 			glm::angleAxis(-motion.x * camera->fovy, glm::vec3(0.0f, 0.0f, 1.0f)) 
-	// 			* camera->transform->rotation 
-	// 			* glm::angleAxis(-motion.y * camera->fovy, glm::vec3(1.0f, 0.0f, 0.0f)));
-			
-	// 		return true;
-	// 	}
-	//}
+	} else if (evt.type == SDL_EVENT_MOUSE_BUTTON_DOWN) { //click mouse to interact @GPT referenced
+		//get mouse position on screen (pixel)
+		std::cout << "Mouse clicked" << std::endl;
+		const float mx = evt.button.x;
+		const float my = evt.button.y;
+		const glm::vec2 mouse_px(mx,my);
+
+		//selection radius
+		const float pick_radius_px = 100.0f;
+
+		float target_dis = std::numeric_limits<float>::max();
+		Scene::Drawable* target = nullptr;
+
+		//find the closest drawable
+		for(auto &dr : scene.drawables) {
+			if(!dr.transform) continue;
+			glm::vec2 px;
+			if(!world_to_screen_px(camera, window_size, dr.transform->position, &px)) continue;
+
+			float dis = glm::dot(px-mouse_px, px-mouse_px);
+			if(dis < pick_radius_px * pick_radius_px && dis < target_dis) { //within radius and better than current target
+				target_dis = dis;
+				target = &dr;
+			}
+		}
+		
+		if(target && target->transform) {
+			std::cout << "Target is" << target->transform->name << std::endl;
+			Sound::stop_all_samples();
+			Sound::Sample const& current_music = pick_sample_for_name(target->transform->name);
+			Sound::play(current_music, 3.0f, 0.0f);
+		}
+		return true;
+	}
 
 	return false;
 }
 
 void PlayMode::update(float elapsed) {
-
-	//slowly rotates through [0,1):
-	// wobble += elapsed / 10.0f;
-	// wobble -= std::floor(wobble);
-
-	// hip->rotation = hip_base_rotation * glm::angleAxis(
-	// 	glm::radians(5.0f * std::sin(wobble * 2.0f * float(M_PI))),
-	// 	glm::vec3(0.0f, 1.0f, 0.0f)
-	// );
-	// upper_leg->rotation = upper_leg_base_rotation * glm::angleAxis(
-	// 	glm::radians(7.0f * std::sin(wobble * 2.0f * 2.0f * float(M_PI))),
-	// 	glm::vec3(0.0f, 0.0f, 1.0f)
-	// );
-	// lower_leg->rotation = lower_leg_base_rotation * glm::angleAxis(
-	// 	glm::radians(10.0f * std::sin(wobble * 3.0f * 2.0f * float(M_PI))),
-	// 	glm::vec3(0.0f, 0.0f, 1.0f)
-	// );
-
-	// //move sound to follow leg tip position:
-	// leg_tip_loop->set_position(get_leg_tip_position(), 1.0f / 60.0f);
-
 	//move camera:
 	{
 

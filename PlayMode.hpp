@@ -52,7 +52,10 @@ struct PlayMode : Mode {
 	//camera:
 	Scene::Camera *camera = nullptr;
 
-	void level_init(int current_level);
+	int level = 0;
+	bool level_cs = true;
+	void level_init();
 	void spawn(const std::string& mesh_name, const glm::vec3& pos);
+	Sound::Sample const& pick_sample_for_name(const std::string& name) const;
 
 };
