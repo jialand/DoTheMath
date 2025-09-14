@@ -67,7 +67,6 @@ Load< Sound::Sample > sample_1_11(LoadTagDefault, []() -> Sound::Sample const * 
 void PlayMode::spawn(const std::string& mesh_name, const glm::vec3& pos) { //@GPT referenced
     
     const Mesh& mesh = elements_meshes->lookup(mesh_name);
-
     scene.transforms.emplace_back();
     Scene::Transform& tr = scene.transforms.back();
     tr.name     = mesh_name;              
@@ -85,8 +84,15 @@ void PlayMode::spawn(const std::string& mesh_name, const glm::vec3& pos) { //@GP
 }
 
 void PlayMode::level_init(int current_level) {
-	
+	scene.drawables.clear();
 	if(current_level == 1) {
+		spawn("Unit1", glm::vec3(0,-5,7));
+		spawn("Unit2", glm::vec3(0,0,7));
+		spawn("Combo1", glm::vec3(0,5,7));
+
+		spawn("Unit1", glm::vec3(0,-5,3));
+		spawn("Unit3", glm::vec3(0,0,3));
+		spawn("Combo2", glm::vec3(0,5,3));
 		
 	}
 }
@@ -285,7 +291,7 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 	glUniform3fv(lit_color_texture_program->LIGHT_ENERGY_vec3, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.95f)));
 	glUseProgram(0);
 
-	glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+	glClearColor(0.851f, 0.867f, 0.753f, 0.5f);
 	glClearDepth(1.0f); //1.0 is actually the default value to clear the depth buffer to, but FYI you can change it.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
