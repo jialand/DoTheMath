@@ -25,6 +25,9 @@ struct Mode : std::enable_shared_from_this< Mode > {
 	static std::shared_ptr< Mode > current;
 	static void set_current(std::shared_ptr< Mode > const &);
 
+	int level = 1;
+	bool level_cs = true;
+
 	//Mode::window is the (global) SDL window:
 	static SDL_Window *window;
 };

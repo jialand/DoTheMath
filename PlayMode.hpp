@@ -29,23 +29,30 @@ struct PlayMode : Mode {
 	Scene scene;
 
 	//hexapod leg to wobble:
-	Scene::Transform *hip = nullptr;
-	Scene::Transform *upper_leg = nullptr;
-	Scene::Transform *lower_leg = nullptr;
-	glm::quat hip_base_rotation;
-	glm::quat upper_leg_base_rotation;
-	glm::quat lower_leg_base_rotation;
-	float wobble = 0.0f;
+	//Scene::Transform *hip = nullptr;
+	//Scene::Transform *upper_leg = nullptr;
+	//Scene::Transform *lower_leg = nullptr;
+
+	// std::vector< Mesh * > Units;
+	// std::vector< Mesh * > Combos;
+
+	//glm::quat hip_base_rotation;
+	//glm::quat upper_leg_base_rotation;
+	//glm::quat lower_leg_base_rotation;
+	//float wobble = 0.0f;
 
 	glm::vec3 get_leg_tip_position();
 
 	//music coming from the tip of the leg (as a demonstration):
-	std::shared_ptr< Sound::PlayingSample > leg_tip_loop;
+	//std::shared_ptr< Sound::PlayingSample > current_music;
 
 	//car honk sound:
-	std::shared_ptr< Sound::PlayingSample > honk_oneshot;
+	//std::shared_ptr< Sound::PlayingSample > honk_oneshot;
 	
 	//camera:
 	Scene::Camera *camera = nullptr;
+
+	void level_init(int current_level);
+	void spawn(const std::string& mesh_name, const glm::vec3& pos);
 
 };
