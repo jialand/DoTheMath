@@ -12,6 +12,9 @@
 
 #include <random>
 
+bool isEntering = false;
+std::string Answer;
+
 GLuint elements_meshes_for_lit_color_texture_program = 0;
 Load< MeshBuffer > elements_meshes(LoadTagDefault, []() -> MeshBuffer const * {
 	MeshBuffer const *ret = new MeshBuffer(data_path("elements.pnct"));
@@ -68,6 +71,98 @@ Load< Sound::Sample > sample_1_11(LoadTagDefault, []() -> Sound::Sample const * 
 	return new Sound::Sample(data_path("1-11.wav"));
 });
 
+Load< Sound::Sample > sample_2_1(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("2-1.wav"));
+});
+
+Load< Sound::Sample > sample_2_3(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("2-3.wav"));
+});
+
+Load< Sound::Sample > sample_2_6(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("2-6.wav"));
+});
+
+Load< Sound::Sample > sample_2_9(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("2-9.wav"));
+});
+
+Load< Sound::Sample > sample_2_10(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("2-10.wav"));
+});
+
+Load< Sound::Sample > sample_3_2(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("3-2.wav"));
+});
+
+Load< Sound::Sample > sample_3_5(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("3-5.wav"));
+});
+
+Load< Sound::Sample > sample_3_6(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("3-6.wav"));
+});
+
+Load< Sound::Sample > sample_3_8(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("3-8.wav"));
+});
+
+Load< Sound::Sample > sample_3_11(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("3-11.wav"));
+});
+
+Load< Sound::Sample > sample_3_13(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("3-13.wav"));
+});
+
+Load< Sound::Sample > sample_a(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("a.wav"));
+});
+
+Load< Sound::Sample > sample_b(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("b.wav"));
+});
+
+Load< Sound::Sample > sample_c(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("c.wav"));
+});
+
+Load< Sound::Sample > sample_d(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("d.wav"));
+});
+
+Load< Sound::Sample > sample_e(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("e.wav"));
+});
+
+Load< Sound::Sample > sample_f(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("f.wav"));
+});
+
+Load< Sound::Sample > sample_g(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("g.wav"));
+});
+
+Load< Sound::Sample > sample_ab(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("ab.wav"));
+});
+
+Load< Sound::Sample > sample_eg(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("eg.wav"));
+});
+
+Load< Sound::Sample > sample_abcf(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("abcf.wav"));
+});
+
+Load< Sound::Sample > sample_cdef(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("cdef.wav"));
+});
+
+Load< Sound::Sample > sample_abcdefg(LoadTagDefault, []() -> Sound::Sample const * {
+	return new Sound::Sample(data_path("abcdefg.wav"));
+});
+
 void PlayMode::spawn(const std::string& mesh_name, const glm::vec3& pos) { //@GPT referenced
     
     const Mesh& mesh = elements_meshes->lookup(mesh_name);
@@ -88,7 +183,9 @@ void PlayMode::spawn(const std::string& mesh_name, const glm::vec3& pos) { //@GP
 }
 
 void PlayMode::level_init() {
+	Sound::stop_all_samples();
 	level++;
+	level_cs = true;
 	scene.drawables.clear();
 	if(level == 1) {
 		spawn("Unit1", glm::vec3(0,-5,7));
@@ -98,7 +195,69 @@ void PlayMode::level_init() {
 		spawn("Unit1", glm::vec3(0,-5,3));
 		spawn("Unit3", glm::vec3(0,0,3));
 		spawn("Combo2", glm::vec3(0,5,3));
+
+		spawn("Combo2", glm::vec3(0,-3,-3));
 		
+	} else if (level == 2) {
+		spawn("Unit1", glm::vec3(0,-6,7));
+		spawn("Unit2", glm::vec3(0,-2,7));
+		spawn("Unit3", glm::vec3(0,2,7));
+		spawn("Combo1", glm::vec3(0,6,7));
+
+		spawn("Unit1", glm::vec3(0,-6,3));
+		spawn("Unit1", glm::vec3(0,-2,3));
+		spawn("Combo2", glm::vec3(0,6,3));
+
+		spawn("Unit2", glm::vec3(0,-5,-1));
+		spawn("Unit2", glm::vec3(0,0,-1));
+		spawn("Unit3", glm::vec3(0,5,-1));
+
+		spawn("Unit3", glm::vec3(0,-3,-7));
+
+	} else if (level == 3) {
+		spawn("Unit1", glm::vec3(0,-6,7));
+		spawn("Unit2", glm::vec3(0,-2,7));
+		spawn("Unit3", glm::vec3(0,2,7));
+		spawn("Combo1", glm::vec3(0,6,7));
+
+		spawn("Unit1", glm::vec3(0,-5,3));
+		spawn("Unit3", glm::vec3(0,0,3));
+		spawn("Combo2", glm::vec3(0,5,3));
+
+		spawn("Unit2", glm::vec3(0,-5,-1));
+		spawn("Unit3", glm::vec3(0,0,-1));
+		spawn("Combo3", glm::vec3(0,5,-1));
+
+		spawn("Unit1", glm::vec3(0,-3,-7));
+	} else if (level == 4) {
+		spawn("Unit1", glm::vec3(0,-14,10));
+		spawn("Unit2", glm::vec3(0,-10,10));
+		spawn("Unit3", glm::vec3(0,-6,10));
+		spawn("Unit4", glm::vec3(0,-2,10));
+		spawn("Unit5", glm::vec3(0,2,10));
+		spawn("Unit6", glm::vec3(0,6,10));
+		spawn("Unit7", glm::vec3(0,10,10));
+		spawn("Combo5", glm::vec3(0,14,10));
+
+		spawn("Unit1", glm::vec3(0,-12,6));
+		spawn("Unit2", glm::vec3(0,-8,6));
+
+		spawn("Combo4", glm::vec3(0,5,6));
+		spawn("Combo2", glm::vec3(0,10,6));
+
+		spawn("Unit4", glm::vec3(0,-12,2));
+		spawn("Unit5", glm::vec3(0,-8,2));
+
+		spawn("Combo3", glm::vec3(0,5,2));
+
+		spawn("Unit5", glm::vec3(0,0,-2));
+
+		spawn("Unit7", glm::vec3(0,-8,-6));
+		spawn("Combo1", glm::vec3(0,-4,-6));
+		spawn("Unit1", glm::vec3(0,0,-6));
+		spawn("Unit2", glm::vec3(0,4,-6));
+		
+		spawn("Combo5", glm::vec3(0,-3,-10));
 	}
 }
 
@@ -147,7 +306,7 @@ static bool world_to_screen_px (const Scene::Camera* cam, glm::uvec2 window_size
 }
 
 Sound::Sample const& PlayMode::pick_sample_for_name(const std::string& name) const{
-	std::cout << "Trying to play sample for" << name << std::endl;
+	std::cout << "Trying to play sample for " << name << std::endl;
 	if (level == 1) {
 		if (name.find("Unit1")  != std::string::npos) return *sample_1_2;
 		if (name.find("Unit2")  != std::string::npos) return *sample_1_3;
@@ -155,6 +314,32 @@ Sound::Sample const& PlayMode::pick_sample_for_name(const std::string& name) con
 		if (name.find("Combo1") != std::string::npos) return *sample_1_5;
     	if (name.find("Combo2") != std::string::npos) return *sample_1_8;
 
+	} else if (level == 2) {
+		if (name.find("Unit1")  != std::string::npos) return *sample_2_1;
+		if (name.find("Unit2")  != std::string::npos) return *sample_2_3;
+		if (name.find("Unit3")  != std::string::npos) return *sample_2_6;
+		if (name.find("Combo1") != std::string::npos) return *sample_2_10;
+    	if (name.find("Combo2") != std::string::npos) return *sample_2_9;
+	} else if (level == 3) {
+		if (name.find("Unit1")  != std::string::npos) return *sample_3_2;
+		if (name.find("Unit2")  != std::string::npos) return *sample_3_5;
+		if (name.find("Unit3")  != std::string::npos) return *sample_3_6;
+		if (name.find("Combo1") != std::string::npos) return *sample_3_13;
+    	if (name.find("Combo2") != std::string::npos) return *sample_3_8;
+		if (name.find("Combo3") != std::string::npos) return *sample_3_11;
+	} else if (level == 4) {
+		if (name.find("Unit1")  != std::string::npos) return *sample_a;
+		if (name.find("Unit2")  != std::string::npos) return *sample_b;
+		if (name.find("Unit3")  != std::string::npos) return *sample_c;
+		if (name.find("Unit4")  != std::string::npos) return *sample_d;
+		if (name.find("Unit5")  != std::string::npos) return *sample_e;
+		if (name.find("Unit6")  != std::string::npos) return *sample_f;
+		if (name.find("Unit7")  != std::string::npos) return *sample_g;
+		if (name.find("Combo1") != std::string::npos) return *sample_ab;
+    	if (name.find("Combo2") != std::string::npos) return *sample_eg;
+		if (name.find("Combo3") != std::string::npos) return *sample_abcf;
+		if (name.find("Combo4") != std::string::npos) return *sample_cdef;
+		if (name.find("Combo5") != std::string::npos) return *sample_abcdefg;
 	}
     // if (name.find("Unit1")  != std::string::npos) return *sample_1_2;
     // if (name.find("Unit2")  != std::string::npos) return *sample_1_3;
@@ -173,89 +358,127 @@ Sound::Sample const& PlayMode::pick_sample_for_name(const std::string& name) con
     return *sample_honk;
 }
 
+int check_right_answer(int level) { //check if is the right answer for each level
+	if (level == 1) return 1000;
+	if (level == 2) return 12;
+	if (level == 3) return 2;
+	if (level == 4) return 14;
+	throw std::runtime_error("Error: checking answer for level " + std::to_string(level));
+	return 0;
+}
+
 PlayMode::~PlayMode() {
 }
 
 bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size) {
 	if (level_cs) {
 		if (evt.type == SDL_EVENT_KEY_DOWN) {
-			if (evt.key.key == SDLK_RETURN) {
+			if (evt.key.key == SDLK_RETURN && level < 5) {
 				level_cs = false;
 				return true;
 			}
 		}
 		return false;
 	}
-	if (evt.type == SDL_EVENT_KEY_DOWN) {
-		if (evt.key.key == SDLK_ESCAPE) {
-			SDL_SetWindowRelativeMouseMode(Mode::window, false);
-			return true;
-		} else if (evt.key.key == SDLK_A) {
-			left.downs += 1;
-			left.pressed = true;
-			return true;
-		} else if (evt.key.key == SDLK_D) {
-			right.downs += 1;
-			right.pressed = true;
-			return true;
-		} else if (evt.key.key == SDLK_W) {
-			up.downs += 1;
-			up.pressed = true;
-			return true;
-		} else if (evt.key.key == SDLK_S) {
-			down.downs += 1;
-			down.pressed = true;
-			return true;
-		} else if (evt.key.key == SDLK_SPACE) {
+	
+	if (!isEntering) {
+		if (evt.type == SDL_EVENT_KEY_DOWN) {
+			if (evt.key.key == SDLK_ESCAPE) {
+				SDL_SetWindowRelativeMouseMode(Mode::window, false);
+				Sound::stop_all_samples();
+				return true;
+			} else if (evt.key.key == SDLK_RETURN) {
+				isEntering = true;
+				Answer = "";
+				return true;
+			}
+		} else if (evt.type == SDL_EVENT_MOUSE_BUTTON_DOWN) { //click mouse to interact @GPT referenced
+			//get mouse position on screen (pixel)
+			std::cout << "Mouse clicked" << std::endl;
+			const float mx = evt.button.x;
+			const float my = evt.button.y;
+			const glm::vec2 mouse_px(mx,my);
+
+			//selection radius
+			const float pick_radius_px = 40.0f;
+
+			float target_dis = std::numeric_limits<float>::max();
+			Scene::Drawable* target = nullptr;
+
+			//find the closest drawable
+			for(auto &dr : scene.drawables) {
+				if(!dr.transform) continue;
+				glm::vec2 px;
+				if(!world_to_screen_px(camera, window_size, dr.transform->position, &px)) continue;
+
+				float dis = glm::dot(px-mouse_px, px-mouse_px);
+				if(dis < pick_radius_px * pick_radius_px && dis < target_dis) { //within radius and better than current target
+					target_dis = dis;
+					target = &dr;
+				}
+			}
 			
-		}
-	} else if (evt.type == SDL_EVENT_KEY_UP) {
-		if (evt.key.key == SDLK_A) {
-			left.pressed = false;
-			return true;
-		} else if (evt.key.key == SDLK_D) {
-			right.pressed = false;
-			return true;
-		} else if (evt.key.key == SDLK_W) {
-			up.pressed = false;
-			return true;
-		} else if (evt.key.key == SDLK_S) {
-			down.pressed = false;
+			if(target && target->transform) {
+				std::cout << "Target is " << target->transform->name << std::endl;
+				Sound::stop_all_samples();
+				Sound::Sample const& current_music = pick_sample_for_name(target->transform->name);
+				Sound::play(current_music, 3.0f, 0.0f);
+			}
 			return true;
 		}
-	} else if (evt.type == SDL_EVENT_MOUSE_BUTTON_DOWN) { //click mouse to interact @GPT referenced
-		//get mouse position on screen (pixel)
-		std::cout << "Mouse clicked" << std::endl;
-		const float mx = evt.button.x;
-		const float my = evt.button.y;
-		const glm::vec2 mouse_px(mx,my);
+	}
 
-		//selection radius
-		const float pick_radius_px = 100.0f;
+	
 
-		float target_dis = std::numeric_limits<float>::max();
-		Scene::Drawable* target = nullptr;
-
-		//find the closest drawable
-		for(auto &dr : scene.drawables) {
-			if(!dr.transform) continue;
-			glm::vec2 px;
-			if(!world_to_screen_px(camera, window_size, dr.transform->position, &px)) continue;
-
-			float dis = glm::dot(px-mouse_px, px-mouse_px);
-			if(dis < pick_radius_px * pick_radius_px && dis < target_dis) { //within radius and better than current target
-				target_dis = dis;
-				target = &dr;
+	else { //Answer Input Mode
+		if (evt.type == SDL_EVENT_KEY_DOWN) {
+			if (evt.key.key == SDLK_ESCAPE) {
+				Answer = "";
+				isEntering = false;
+			} else if (evt.key.key == SDLK_1) {
+				Answer += "1";
+				return true;
+			} else if (evt.key.key == SDLK_2) {
+				Answer += "2";
+				return true;
+			} else if (evt.key.key == SDLK_3) {
+				Answer += "3";
+				return true;
+			} else if (evt.key.key == SDLK_4) {
+				Answer += "4";
+				return true;
+			} else if (evt.key.key == SDLK_5) {
+				Answer += "5";
+				return true;
+			} else if (evt.key.key == SDLK_6) {
+				Answer += "6";
+				return true;
+			} else if (evt.key.key == SDLK_7) {
+				Answer += "7";
+				return true;
+			} else if (evt.key.key == SDLK_8) {
+				Answer += "8";
+				return true;
+			} else if (evt.key.key == SDLK_9) {
+				Answer += "9";
+				return true;
+			} else if (evt.key.key == SDLK_0) {
+				Answer += "0";
+				return true;
+			} else if (evt.key.key == SDLK_RETURN) {
+				std::cout << "Answer is " << Answer << " while right answer is " << std::to_string(check_right_answer(level)) << std::endl;
+				if(Answer == std::to_string(check_right_answer(level))) {
+					std::cout<< "level " << level << " finished!" << std::endl;
+					level_init();
+				}
+				Answer = "";
+				isEntering = !isEntering;
+			} else if (evt.key.key == SDLK_BACKSPACE) {
+				if(!Answer.empty())
+					Answer.pop_back();
 			}
 		}
-		
-		if(target && target->transform) {
-			std::cout << "Target is" << target->transform->name << std::endl;
-			Sound::stop_all_samples();
-			Sound::Sample const& current_music = pick_sample_for_name(target->transform->name);
-			Sound::play(current_music, 3.0f, 0.0f);
-		}
-		return true;
+		return false;
 	}
 
 	return false;
@@ -324,15 +547,136 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 		
 		if(level == 1) {
 			lines.draw_text("Believe it or not, music is math. Are you ready for level 1?",
-				glm::vec3(-aspect + 0.1f * H, 0.0f + 0.1f * H, 0.0),
+				glm::vec3(-0.9f + 0.1f * H, 0.3f + 0.1f * H, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 			
 			lines.draw_text("Believe it or not, music is math. Are you ready for level 1?",
-				glm::vec3(-aspect + 0.1f * H + ofs, 0.0f + + 0.1f * H + ofs, 0.0),
+				glm::vec3(-0.9f + 0.1f * H + ofs, 0.3f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+			
+			lines.draw_text("All musics are NON - NEGATIVE INTEGERS.",
+				glm::vec3(-0.6f + 0.1f * H, 0.1f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("All musics are NON - NEGATIVE INTEGERS.",
+				glm::vec3(-0.6f + 0.1f * H + ofs, 0.1f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+			lines.draw_text("Press 'Enter'/'Return' to continue.",
+				glm::vec3(-0.5f + 0.1f * H, -0.2f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("Press 'Enter'/'Return' to continue.",
+				glm::vec3(-0.5f + 0.1f * H + ofs, -0.2f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+		} else if (level == 2) {
+			lines.draw_text("Good job! But it's just the begining.",
+				glm::vec3(-0.5f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("Good job! But it's just the begining.",
+				glm::vec3(-0.5f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+			lines.draw_text("Press 'Enter'/'Return' to continue.",
+				glm::vec3(-0.5f + 0.1f * H, -0.2f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("Press 'Enter'/'Return' to continue.",
+				glm::vec3(-0.5f + 0.1f * H + ofs, -0.2f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+		} else if (level == 3) {
+			lines.draw_text("Wow, so you discovered this is not just base-2. Congrats!",
+				glm::vec3(-0.95f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("Wow, so you discovered this is not just base-2. Congrats!",
+				glm::vec3(-0.95f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+			lines.draw_text("Press 'Enter'/'Return' to continue.",
+				glm::vec3(-0.5f + 0.1f * H, -0.2f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("Press 'Enter'/'Return' to continue.",
+				glm::vec3(-0.5f + 0.1f * H + ofs, -0.2f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+		} else if (level == 4) {
+			lines.draw_text("NICE! You've beat this game! How does it feel?",
+				glm::vec3(-0.65f + 0.1f * H, 0.4f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("NICE! You've beat this game! How does it feel?",
+				glm::vec3(-0.65f + 0.1f * H + ofs, 0.4f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+			lines.draw_text("......Or did you?",
+				glm::vec3(-0.25f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("......Or did you?",
+				glm::vec3(-0.25f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+				
+			lines.draw_text("The Bonus level is HELL. Do you still wanna try?",
+				glm::vec3(-0.75f + 0.1f * H, -0.2f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("The Bonus level is HELL. Do you still wanna try?",
+				glm::vec3(-0.75f + 0.1f * H + ofs, -0.2f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+			lines.draw_text("Press 'Enter'/'Return' to continue.",
+				glm::vec3(-0.5f + 0.1f * H, -0.4f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("Press 'Enter'/'Return' to continue.",
+				glm::vec3(-0.5f + 0.1f * H + ofs, -0.4f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+		} else if (level == 5) {
+			lines.draw_text("YOU MADE IT! Now, this game really ended.",
+				glm::vec3(-0.7f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("YOU MADE IT! Now, this game really ended.",
+				glm::vec3(-0.7f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+			
+			lines.draw_text("Thank you for playing!",
+				glm::vec3(-0.4f + 0.1f * H, -0.2f + 0.1f * H, 0.0),
+				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+			
+			lines.draw_text("Thank you for playing!",
+				glm::vec3(-0.4f + 0.1f * H + ofs, -0.2f + 0.1f * H + ofs, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 		}
+		
 		return;
 	}
 
@@ -342,7 +686,7 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 	glUniform3fv(lit_color_texture_program->LIGHT_ENERGY_vec3, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.95f)));
 	glUseProgram(0);
 
-	glClearColor(0.851f, 0.867f, 0.753f, 0.5f);
+	glClearColor(0.6808f, 0.6936f, 0.6024f, 0.5f);
 	glClearDepth(1.0f); //1.0 is actually the default value to clear the depth buffer to, but FYI you can change it.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -350,6 +694,230 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 	glDepthFunc(GL_LESS); //this is the default depth comparison function, but FYI you can change it.
 
 	scene.draw(*camera);
+
+	//texts
+	glDisable(GL_DEPTH_TEST);
+		
+		DrawLines lines(glm::mat4(
+			1.0f / aspect, 0.0f, 0.0f, 0.0f,
+			0.0f, 1.0f, 0.0f, 0.0f,
+			0.0f, 0.0f, 1.0f, 0.0f,
+			0.0f, 0.0f, 0.0f, 1.0f
+		));
+
+	if (level == 1) {
+		lines.draw_text("10    +     11    =     101",
+			glm::vec3(-0.47f + 0.1f * H, 0.52f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("10    +     11    =     101",
+			glm::vec3(-0.47f + 0.1f * H + ofs, 0.52f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+		lines.draw_text("10    +     110    =     ",
+			glm::vec3(-0.47f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("10    +     110    =     ",
+			glm::vec3(-0.47f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+		lines.draw_text("=     ?",
+			glm::vec3(-0.0f + 0.1f * H, -0.3f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("=     ?",
+			glm::vec3(-0.0f + 0.1f * H + ofs, -0.3f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+	} else if (level == 2) {
+		lines.draw_text("1    +          +         =   22",
+			glm::vec3(-0.53f + 0.1f * H, 0.53f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("1    +          +         =   22",
+			glm::vec3(-0.53f + 0.1f * H + ofs, 0.53f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+		lines.draw_text("1    +    1    +   13   =     ",
+			glm::vec3(-0.53f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("1    +    1    +   13   =     ",
+			glm::vec3(-0.53f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+		
+		lines.draw_text("        +           =     ",
+			glm::vec3(-0.47f + 0.1f * H, -0.14f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("        +           =     ",
+			glm::vec3(-0.47f + 0.1f * H + ofs, -0.14f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+		lines.draw_text("=     ?",
+			glm::vec3(-0.0f + 0.1f * H, -0.65f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("=     ?",
+			glm::vec3(-0.0f + 0.1f * H + ofs, -0.65f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+	} else if (level == 3) {
+		lines.draw_text("+   12    +        =   111",
+			glm::vec3(-0.35f + 0.1f * H, 0.53f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("+   12    +        =   111",
+			glm::vec3(-0.35f + 0.1f * H + ofs, 0.53f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+		lines.draw_text("        +            =    22",
+			glm::vec3(-0.47f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("        +            =    22",
+			glm::vec3(-0.47f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+		lines.draw_text("12      +            =   102",
+			glm::vec3(-0.47f + 0.1f * H, -0.14f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("12      +            =   102",
+			glm::vec3(-0.47f + 0.1f * H + ofs, -0.14f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+		
+		lines.draw_text("=     ?",
+			glm::vec3(-0.0f + 0.1f * H, -0.65f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("=     ?",
+			glm::vec3(-0.0f + 0.1f * H + ofs, -0.65f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+	} else if (level == 4) {
+		lines.draw_text("+        +         +          +         +          +         =",
+			glm::vec3(-1.0f + 0.1f * H, 0.77f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("+        +         +          +         +          +         =",
+			glm::vec3(-1.0f + 0.1f * H + ofs, 0.77f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+		lines.draw_text("x          =      2                          =",
+			glm::vec3(-0.85f + 0.1f * H, 0.46f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("x          =      2                          =",
+			glm::vec3(-0.85f + 0.1f * H + ofs, 0.46f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+		
+		lines.draw_text("x          =      0                          =     10",
+			glm::vec3(-0.85f + 0.1f * H, 0.13f + 0.15f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("x          =      0                          =     10",
+			glm::vec3(-0.85f + 0.1f * H + ofs, 0.13f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+		lines.draw_text("10     -              =      3",
+			glm::vec3(-0.5f + 0.1f * H, -0.21f + 0.15f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("10     -              =      3",
+			glm::vec3(-0.5f + 0.1f * H + ofs, -0.21f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+		lines.draw_text("-          +         x           =      1",
+			glm::vec3(-0.53f + 0.1f * H, -0.55f + 0.15f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("-          +         x           =      1",
+			glm::vec3(-0.53f + 0.1f * H + ofs, -0.55f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+		lines.draw_text("=     ?",
+			glm::vec3(-0.0f + 0.1f * H, -0.9f + 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("=     ?",
+			glm::vec3(-0.0f + 0.1f * H + ofs, -0.9f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+		
+		lines.draw_text("Note: Two yellowish/greenish cubes are the same one. Color may seems different due to light position.",
+			glm::vec3(-0.0f + 0.1f * H, -1.0f + 0.1f * H, 0.0),
+			glm::vec3(H/2, 0.0f, 0.0f), glm::vec3(0.0f, H/2, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		
+		lines.draw_text("Note: Two yellowish/greenish cubes are the same one. Color may seems different due to light position.",
+			glm::vec3(-0.0f + 0.1f * H + ofs, -1.0f + 0.1f * H + ofs, 0.0),
+			glm::vec3(H/2, 0.0f, 0.0f), glm::vec3(0.f, H/2, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+	}
+
+	if(isEntering) {
+		lines.draw_text("Answer: " + Answer,
+			glm::vec3(-aspect + 1.5 + 0.1f * H, 0.0 - 0.1f * H, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+		//float ofs = 2.0f / drawable_size.y;
+		lines.draw_text("Answer: " + Answer,
+			glm::vec3(-aspect + 1.5 + 0.1f * H + ofs, 0.0 - 0.1f * H - ofs, 0.0),
+			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+	}
+
+	lines.draw_text("Enter/Return to enter / submit the answer.",
+		glm::vec3(-aspect + 0.1f * H, -0.9 + 0.1f * H, 0.0),
+		glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+		glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+	
+	lines.draw_text("Enter/Return to enter / submit the answer.",
+		glm::vec3(-aspect + 0.1f * H + ofs, -0.9 + 0.1f * H + ofs, 0.0),
+		glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+		glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+
+	lines.draw_text("Click on the items to play the music.",
+		glm::vec3(-aspect + 0.1f * H, -1.0 + 0.1f * H, 0.0),
+		glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+		glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+	
+	lines.draw_text("Click on the items to play the music.",
+		glm::vec3(-aspect + 0.1f * H + ofs, -1.0 + 0.1f * H + ofs, 0.0),
+		glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+		glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 
 	GL_ERRORS();
 }
