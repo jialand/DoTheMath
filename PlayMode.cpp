@@ -198,7 +198,7 @@ void PlayMode::level_init() {
 
 		spawn("Combo2", glm::vec3(0,-3,-3));
 		
-	} else if (level == 2) {
+	} else if (level == 3) {
 		spawn("Unit1", glm::vec3(0,-6,7));
 		spawn("Unit2", glm::vec3(0,-2,7));
 		spawn("Unit3", glm::vec3(0,2,7));
@@ -214,7 +214,7 @@ void PlayMode::level_init() {
 
 		spawn("Unit3", glm::vec3(0,-3,-7));
 
-	} else if (level == 3) {
+	} else if (level == 2) {
 		spawn("Unit1", glm::vec3(0,-6,7));
 		spawn("Unit2", glm::vec3(0,-2,7));
 		spawn("Unit3", glm::vec3(0,2,7));
@@ -314,13 +314,13 @@ Sound::Sample const& PlayMode::pick_sample_for_name(const std::string& name) con
 		if (name.find("Combo1") != std::string::npos) return *sample_1_5;
     	if (name.find("Combo2") != std::string::npos) return *sample_1_8;
 
-	} else if (level == 2) {
+	} else if (level == 3) {
 		if (name.find("Unit1")  != std::string::npos) return *sample_2_1;
 		if (name.find("Unit2")  != std::string::npos) return *sample_2_3;
 		if (name.find("Unit3")  != std::string::npos) return *sample_2_6;
 		if (name.find("Combo1") != std::string::npos) return *sample_2_10;
     	if (name.find("Combo2") != std::string::npos) return *sample_2_9;
-	} else if (level == 3) {
+	} else if (level == 2) {
 		if (name.find("Unit1")  != std::string::npos) return *sample_3_2;
 		if (name.find("Unit2")  != std::string::npos) return *sample_3_5;
 		if (name.find("Unit3")  != std::string::npos) return *sample_3_6;
@@ -360,8 +360,8 @@ Sound::Sample const& PlayMode::pick_sample_for_name(const std::string& name) con
 
 int check_right_answer(int level) { //check if is the right answer for each level
 	if (level == 1) return 1000;
-	if (level == 2) return 12;
-	if (level == 3) return 2;
+	if (level == 3) return 12;
+	if (level == 2) return 2;
 	if (level == 4) return 14;
 	throw std::runtime_error("Error: checking answer for level " + std::to_string(level));
 	return 0;
@@ -575,14 +575,14 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 				glm::vec3(-0.5f + 0.1f * H + ofs, -0.2f + 0.1f * H + ofs, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
-		} else if (level == 2) {
-			lines.draw_text("Good job! But it's just the begining.",
-				glm::vec3(-0.5f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
+		} else if (level == 3) {
+			lines.draw_text("Good job! Now you know it's not always base-2!",
+				glm::vec3(-0.75f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 			
-			lines.draw_text("Good job! But it's just the begining.",
-				glm::vec3(-0.5f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
+			lines.draw_text("Good job! Now you know it's not always base-2!",
+				glm::vec3(-0.75f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 
@@ -595,14 +595,14 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 				glm::vec3(-0.5f + 0.1f * H + ofs, -0.2f + 0.1f * H + ofs, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
-		} else if (level == 3) {
-			lines.draw_text("Wow, so you discovered this is not just base-2. Congrats!",
-				glm::vec3(-0.95f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
+		} else if (level == 2) {
+			lines.draw_text("Wow, so you discovered that was base-2. Congrats!",
+				glm::vec3(-0.8f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 			
-			lines.draw_text("Wow, so you discovered this is not just base-2. Congrats!",
-				glm::vec3(-0.95f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
+			lines.draw_text("Wow, so you discovered that was base-2. Congrats!",
+				glm::vec3(-0.8f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 
@@ -617,12 +617,12 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 		} else if (level == 4) {
 			lines.draw_text("NICE! You've beat this game! How does it feel?",
-				glm::vec3(-0.65f + 0.1f * H, 0.4f + 0.1f * H, 0.0),
+				glm::vec3(-0.68f + 0.1f * H, 0.4f + 0.1f * H, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 			
 			lines.draw_text("NICE! You've beat this game! How does it feel?",
-				glm::vec3(-0.65f + 0.1f * H + ofs, 0.4f + 0.1f * H + ofs, 0.0),
+				glm::vec3(-0.68f + 0.1f * H + ofs, 0.4f + 0.1f * H + ofs, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 
@@ -636,13 +636,13 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 				
-			lines.draw_text("The Bonus level is HELL. Do you still wanna try?",
-				glm::vec3(-0.75f + 0.1f * H, -0.2f + 0.1f * H, 0.0),
+			lines.draw_text("The bonus level is what this game is made for. Do you still wanna try?",
+				glm::vec3(-1.05f + 0.1f * H, -0.2f + 0.1f * H, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 			
-			lines.draw_text("The Bonus level is HELL. Do you still wanna try?",
-				glm::vec3(-0.75f + 0.1f * H + ofs, -0.2f + 0.1f * H + ofs, 0.0),
+			lines.draw_text("The bonus level is what this game is made for. Do you still wanna try?",
+				glm::vec3(-1.05f + 0.1f * H + ofs, -0.2f + 0.1f * H + ofs, 0.0),
 				glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 				glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 
@@ -706,22 +706,22 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 		));
 
 	if (level == 1) {
-		lines.draw_text("10    +     11    =     101",
+		lines.draw_text("10    +     11    ==    101",
 			glm::vec3(-0.47f + 0.1f * H, 0.52f + 0.1f * H, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 		
-		lines.draw_text("10    +     11    =     101",
+		lines.draw_text("10    +     11    ==    101",
 			glm::vec3(-0.47f + 0.1f * H + ofs, 0.52f + 0.1f * H + ofs, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 
-		lines.draw_text("10    +     110    =     ",
+		lines.draw_text("10    +     110   ==     ",
 			glm::vec3(-0.47f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 		
-		lines.draw_text("10    +     110    =     ",
+		lines.draw_text("10    +     110   ==     ",
 			glm::vec3(-0.47f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
@@ -735,13 +735,13 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 			glm::vec3(-0.0f + 0.1f * H + ofs, -0.3f + 0.1f * H + ofs, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.f, H, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
-	} else if (level == 2) {
-		lines.draw_text("1    +          +         =   22",
+	} else if (level == 3) {
+		lines.draw_text("1    +          +        ==   22",
 			glm::vec3(-0.53f + 0.1f * H, 0.53f + 0.1f * H, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 		
-		lines.draw_text("1    +          +         =   22",
+		lines.draw_text("1    +          +        ==   22",
 			glm::vec3(-0.53f + 0.1f * H + ofs, 0.53f + 0.1f * H + ofs, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
@@ -775,33 +775,33 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 			glm::vec3(-0.0f + 0.1f * H + ofs, -0.65f + 0.1f * H + ofs, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.f, H, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
-	} else if (level == 3) {
-		lines.draw_text("+   12    +        =   111",
+	} else if (level == 2) {
+		lines.draw_text("+   12    +        ==  111",
 			glm::vec3(-0.35f + 0.1f * H, 0.53f + 0.1f * H, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 		
-		lines.draw_text("+   12    +        =   111",
+		lines.draw_text("+   12    +        ==  111",
 			glm::vec3(-0.35f + 0.1f * H + ofs, 0.53f + 0.1f * H + ofs, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 
-		lines.draw_text("        +            =    22",
+		lines.draw_text("        +           ==    22",
 			glm::vec3(-0.47f + 0.1f * H, 0.2f + 0.1f * H, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 		
-		lines.draw_text("        +            =    22",
+		lines.draw_text("        +           ==    22",
 			glm::vec3(-0.47f + 0.1f * H + ofs, 0.2f + 0.1f * H + ofs, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 
-		lines.draw_text("12      +            =   102",
+		lines.draw_text("12      +           ==   102",
 			glm::vec3(-0.47f + 0.1f * H, -0.14f + 0.1f * H, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 		
-		lines.draw_text("12      +            =   102",
+		lines.draw_text("12      +           ==   102",
 			glm::vec3(-0.47f + 0.1f * H + ofs, -0.14f + 0.1f * H + ofs, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
@@ -816,12 +816,12 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.f, H, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 	} else if (level == 4) {
-		lines.draw_text("+        +         +          +         +          +         =",
+		lines.draw_text("+        +         +          +         +          +        ==",
 			glm::vec3(-1.0f + 0.1f * H, 0.77f + 0.1f * H, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 		
-		lines.draw_text("+        +         +          +         +          +         =",
+		lines.draw_text("+        +         +          +         +          +        ==",
 			glm::vec3(-1.0f + 0.1f * H + ofs, 0.77f + 0.1f * H + ofs, 0.0),
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
@@ -876,13 +876,13 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 			glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.f, H, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 		
-		lines.draw_text("Note: Two yellowish/greenish cubes are the same one. Color may seems different due to light position.",
-			glm::vec3(-0.0f + 0.1f * H, -1.0f + 0.1f * H, 0.0),
+		lines.draw_text("Note: Two yellowish cubes are the same one. Color may seems different due to light position.",
+			glm::vec3(0.2f + 0.1f * H, -1.0f + 0.1f * H, 0.0),
 			glm::vec3(H/2, 0.0f, 0.0f), glm::vec3(0.0f, H/2, 0.0f),
 			glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 		
-		lines.draw_text("Note: Two yellowish/greenish cubes are the same one. Color may seems different due to light position.",
-			glm::vec3(-0.0f + 0.1f * H + ofs, -1.0f + 0.1f * H + ofs, 0.0),
+		lines.draw_text("Note: Two yellowish cubes are the same one. Color may seems different due to light position.",
+			glm::vec3(0.2f + 0.1f * H + ofs, -1.0f + 0.1f * H + ofs, 0.0),
 			glm::vec3(H/2, 0.0f, 0.0f), glm::vec3(0.f, H/2, 0.0f),
 			glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 	}
@@ -909,16 +909,35 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 		glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 		glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 
-	lines.draw_text("Click on the items to play the music.",
+	lines.draw_text("Click on the items to play the music. Escape to stop.",
 		glm::vec3(-aspect + 0.1f * H, -1.0 + 0.1f * H, 0.0),
 		glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 		glm::u8vec4(0x00, 0x00, 0x00, 0x00));
 	
-	lines.draw_text("Click on the items to play the music.",
+	lines.draw_text("Click on the items to play the music. Escape to stop.",
 		glm::vec3(-aspect + 0.1f * H + ofs, -1.0 + 0.1f * H + ofs, 0.0),
 		glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
 		glm::u8vec4(0xff, 0xff, 0xff, 0x00));
-
+	
+	lines.draw_text("== equations satisfy both music and math.",
+		glm::vec3(-aspect + 0.1f * H, -0.7 + 0.1f * H, 0.0),
+		glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+		glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+	
+	lines.draw_text("== equations satisfy both music and math.",
+		glm::vec3(-aspect + 0.1f * H + ofs, -0.7 + 0.1f * H + ofs, 0.0),
+		glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+		glm::u8vec4(0xff, 0xff, 0xff, 0x00));
+	
+	lines.draw_text("= equalations satisfy only math.",
+		glm::vec3(-aspect + 0.1f * H, -0.8 + 0.1f * H, 0.0),
+		glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+		glm::u8vec4(0x00, 0x00, 0x00, 0x00));
+	
+	lines.draw_text("= equalations satisfy only math.",
+		glm::vec3(-aspect + 0.1f * H + ofs, -0.8 + 0.1f * H + ofs, 0.0),
+		glm::vec3(H, 0.0f, 0.0f), glm::vec3(0.0f, H, 0.0f),
+		glm::u8vec4(0xff, 0xff, 0xff, 0x00));
 	GL_ERRORS();
 }
 
