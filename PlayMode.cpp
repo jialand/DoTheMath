@@ -435,34 +435,34 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
 			if (evt.key.key == SDLK_ESCAPE) {
 				Answer = "";
 				isEntering = false;
-			} else if (evt.key.key == SDLK_1) {
+			} else if (evt.key.key == SDLK_1 || evt.key.key == SDLK_KP_1) {
 				Answer += "1";
 				return true;
-			} else if (evt.key.key == SDLK_2) {
+			} else if (evt.key.key == SDLK_2 || evt.key.key == SDLK_KP_2) {
 				Answer += "2";
 				return true;
-			} else if (evt.key.key == SDLK_3) {
+			} else if (evt.key.key == SDLK_3 || evt.key.key == SDLK_KP_3) {
 				Answer += "3";
 				return true;
-			} else if (evt.key.key == SDLK_4) {
+			} else if (evt.key.key == SDLK_4 || evt.key.key == SDLK_KP_4) {
 				Answer += "4";
 				return true;
-			} else if (evt.key.key == SDLK_5) {
+			} else if (evt.key.key == SDLK_5 || evt.key.key == SDLK_KP_5) {
 				Answer += "5";
 				return true;
-			} else if (evt.key.key == SDLK_6) {
+			} else if (evt.key.key == SDLK_6 || evt.key.key == SDLK_KP_6) {
 				Answer += "6";
 				return true;
-			} else if (evt.key.key == SDLK_7) {
+			} else if (evt.key.key == SDLK_7 || evt.key.key == SDLK_KP_7) {
 				Answer += "7";
 				return true;
-			} else if (evt.key.key == SDLK_8) {
+			} else if (evt.key.key == SDLK_8 || evt.key.key == SDLK_KP_8) {
 				Answer += "8";
 				return true;
-			} else if (evt.key.key == SDLK_9) {
+			} else if (evt.key.key == SDLK_9 || evt.key.key == SDLK_KP_9) {
 				Answer += "9";
 				return true;
-			} else if (evt.key.key == SDLK_0) {
+			} else if (evt.key.key == SDLK_0 || evt.key.key == SDLK_KP_0) {
 				Answer += "0";
 				return true;
 			} else if (evt.key.key == SDLK_RETURN) {
