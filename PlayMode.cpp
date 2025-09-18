@@ -400,7 +400,7 @@ bool PlayMode::handle_event(SDL_Event const &evt, glm::uvec2 const &window_size)
 			const glm::vec2 mouse_px(mx,my);
 
 			//selection radius
-			const float pick_radius_px = 40.0f;
+			const float pick_radius_px = 60.0f;
 
 			float target_dis = std::numeric_limits<float>::max();
 			Scene::Drawable* target = nullptr;
@@ -686,7 +686,7 @@ void PlayMode::draw(glm::uvec2 const &drawable_size) {
 	glUniform3fv(lit_color_texture_program->LIGHT_ENERGY_vec3, 1, glm::value_ptr(glm::vec3(1.0f, 1.0f, 0.95f)));
 	glUseProgram(0);
 
-	glClearColor(0.6808f, 0.6936f, 0.6024f, 0.5f);
+	glClearColor(0.0f, 0.0f, 0.0f, 0.5f);
 	glClearDepth(1.0f); //1.0 is actually the default value to clear the depth buffer to, but FYI you can change it.
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
